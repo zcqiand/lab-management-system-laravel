@@ -1,0 +1,1229 @@
+{
+    "operations": [
+        {
+            "method": "GET",
+            "operationId": "Auth_getCurrentUser",
+            "path": "/api/auth/me",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": "CurrentUserSession",
+            "tag": "auth"
+        },
+        {
+            "method": "GET",
+            "operationId": "Auth_getMenus",
+            "path": "/api/auth/menus",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "auth"
+        },
+        {
+            "method": "GET",
+            "operationId": "Auth_getPermissions",
+            "path": "/api/auth/permissions",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": "PermissionSet",
+            "tag": "auth"
+        },
+        {
+            "method": "POST",
+            "operationId": "Auth_login",
+            "path": "/api/auth/login",
+            "requestSchema": "LoginRequest",
+            "requiredFields": [
+                "username",
+                "password"
+            ],
+            "responseSchema": "LoginResponse",
+            "tag": "auth"
+        },
+        {
+            "method": "POST",
+            "operationId": "Auth_logout",
+            "path": "/api/auth/logout",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "auth"
+        },
+        {
+            "method": "POST",
+            "operationId": "Auth_nativeLogin",
+            "path": "/api/auth/native-login",
+            "requestSchema": "LoginRequest",
+            "requiredFields": [
+                "username",
+                "password"
+            ],
+            "responseSchema": "LoginResponse",
+            "tag": "auth"
+        },
+        {
+            "method": "POST",
+            "operationId": "Auth_refresh",
+            "path": "/api/auth/refresh",
+            "requestSchema": "RefreshTokenRequest",
+            "requiredFields": [
+                "refreshToken"
+            ],
+            "responseSchema": "LoginResponse",
+            "tag": "auth"
+        },
+        {
+            "method": "GET",
+            "operationId": "Auth_ssoAuthorize",
+            "path": "/api/auth/sso/authorize",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": "SsoRedirect",
+            "tag": "auth"
+        },
+        {
+            "method": "POST",
+            "operationId": "Auth_ssoCallback",
+            "path": "/api/auth/sso/callback",
+            "requestSchema": "SsoCallbackRequest",
+            "requiredFields": [
+                "grant_type",
+                "code",
+                "redirect_uri",
+                "state"
+            ],
+            "responseSchema": "LoginResponse",
+            "tag": "auth"
+        },
+        {
+            "method": "POST",
+            "operationId": "Auth_switchTenant",
+            "path": "/api/auth/switch-tenant",
+            "requestSchema": "SwitchTenantRequest",
+            "requiredFields": [
+                "tenantId"
+            ],
+            "responseSchema": "LoginResponse",
+            "tag": "auth"
+        },
+        {
+            "method": "POST",
+            "operationId": "CalculationMethods_createCalculationMethod",
+            "path": "/api/calculation-methods",
+            "requestSchema": "CreateCalculationMethodRequest",
+            "requiredFields": [
+                "inspectionObjectCode",
+                "inspectionParameterCode"
+            ],
+            "responseSchema": "CalculationMethod",
+            "tag": "calculation-methods"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "CalculationMethods_deleteCalculationMethod",
+            "path": "/api/calculation-methods/{inspectionObjectCode}/{inspectionParameterCode}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "calculation-methods"
+        },
+        {
+            "method": "GET",
+            "operationId": "CalculationMethods_getCalculationMethod",
+            "path": "/api/calculation-methods/{inspectionObjectCode}/{inspectionParameterCode}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": "CalculationMethod",
+            "tag": "calculation-methods"
+        },
+        {
+            "method": "GET",
+            "operationId": "CalculationMethods_listCalculationMethods",
+            "path": "/api/calculation-methods",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "calculation-methods"
+        },
+        {
+            "method": "PUT",
+            "operationId": "CalculationMethods_updateCalculationMethod",
+            "path": "/api/calculation-methods/{inspectionObjectCode}/{inspectionParameterCode}",
+            "requestSchema": "UpdateCalculationMethodRequest",
+            "requiredFields": [],
+            "responseSchema": "CalculationMethod",
+            "tag": "calculation-methods"
+        },
+        {
+            "method": "POST",
+            "operationId": "Contracts_createContract",
+            "path": "/api/contracts",
+            "requestSchema": "CreateContractRequest",
+            "requiredFields": [
+                "contractCode",
+                "clientUnit",
+                "projectName",
+                "constructionUnit",
+                "witnessUnit",
+                "witness"
+            ],
+            "responseSchema": "Contract",
+            "tag": "contracts"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "Contracts_deleteContract",
+            "path": "/api/contracts/{id}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "contracts"
+        },
+        {
+            "method": "GET",
+            "operationId": "Contracts_getContract",
+            "path": "/api/contracts/{id}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": "Contract",
+            "tag": "contracts"
+        },
+        {
+            "method": "GET",
+            "operationId": "Contracts_listContracts",
+            "path": "/api/contracts",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "contracts"
+        },
+        {
+            "method": "PUT",
+            "operationId": "Contracts_updateContract",
+            "path": "/api/contracts/{id}",
+            "requestSchema": "UpdateContractRequest",
+            "requiredFields": [],
+            "responseSchema": "Contract",
+            "tag": "contracts"
+        },
+        {
+            "method": "GET",
+            "operationId": "FrontendBindMeta_getFrontendBindSnapshot",
+            "path": "/api/_frontend-bind/snapshot",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": "FrontendBindMeta.FrontendBindSnapshot",
+            "tag": "frontend-bind-meta"
+        },
+        {
+            "method": "POST",
+            "operationId": "Catalog_createBrand",
+            "path": "/api/catalog/brands",
+            "requestSchema": "CreateCatalogEntryRequest",
+            "requiredFields": [
+                "code",
+                "name"
+            ],
+            "responseSchema": "InspectionBrand",
+            "tag": "inspection-catalog"
+        },
+        {
+            "method": "POST",
+            "operationId": "Catalog_createGrade",
+            "path": "/api/catalog/grades",
+            "requestSchema": "CreateCatalogEntryRequest",
+            "requiredFields": [
+                "code",
+                "name"
+            ],
+            "responseSchema": "InspectionGrade",
+            "tag": "inspection-catalog"
+        },
+        {
+            "method": "POST",
+            "operationId": "Catalog_createModel",
+            "path": "/api/catalog/models",
+            "requestSchema": "CreateCatalogEntryRequest",
+            "requiredFields": [
+                "code",
+                "name"
+            ],
+            "responseSchema": "InspectionModel",
+            "tag": "inspection-catalog"
+        },
+        {
+            "method": "POST",
+            "operationId": "Catalog_createSpec",
+            "path": "/api/catalog/specs",
+            "requestSchema": "CreateCatalogEntryRequest",
+            "requiredFields": [
+                "code",
+                "name"
+            ],
+            "responseSchema": "InspectionSpec",
+            "tag": "inspection-catalog"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "Catalog_deleteBrand",
+            "path": "/api/catalog/brands/{code}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-catalog"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "Catalog_deleteGrade",
+            "path": "/api/catalog/grades/{code}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-catalog"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "Catalog_deleteModel",
+            "path": "/api/catalog/models/{code}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-catalog"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "Catalog_deleteSpec",
+            "path": "/api/catalog/specs/{code}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-catalog"
+        },
+        {
+            "method": "GET",
+            "operationId": "Catalog_listBrands",
+            "path": "/api/catalog/brands",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-catalog"
+        },
+        {
+            "method": "GET",
+            "operationId": "Catalog_listGrades",
+            "path": "/api/catalog/grades",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-catalog"
+        },
+        {
+            "method": "GET",
+            "operationId": "Catalog_listModels",
+            "path": "/api/catalog/models",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-catalog"
+        },
+        {
+            "method": "GET",
+            "operationId": "Catalog_listSpecs",
+            "path": "/api/catalog/specs",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-catalog"
+        },
+        {
+            "method": "PUT",
+            "operationId": "Catalog_updateBrand",
+            "path": "/api/catalog/brands/{code}",
+            "requestSchema": "UpdateCatalogEntryRequest",
+            "requiredFields": [],
+            "responseSchema": "InspectionBrand",
+            "tag": "inspection-catalog"
+        },
+        {
+            "method": "PUT",
+            "operationId": "Catalog_updateGrade",
+            "path": "/api/catalog/grades/{code}",
+            "requestSchema": "UpdateCatalogEntryRequest",
+            "requiredFields": [],
+            "responseSchema": "InspectionGrade",
+            "tag": "inspection-catalog"
+        },
+        {
+            "method": "PUT",
+            "operationId": "Catalog_updateModel",
+            "path": "/api/catalog/models/{code}",
+            "requestSchema": "UpdateCatalogEntryRequest",
+            "requiredFields": [],
+            "responseSchema": "InspectionModel",
+            "tag": "inspection-catalog"
+        },
+        {
+            "method": "PUT",
+            "operationId": "Catalog_updateSpec",
+            "path": "/api/catalog/specs/{code}",
+            "requestSchema": "UpdateCatalogEntryRequest",
+            "requiredFields": [],
+            "responseSchema": "InspectionSpec",
+            "tag": "inspection-catalog"
+        },
+        {
+            "method": "POST",
+            "operationId": "InspectionDictionary_createObject",
+            "path": "/api/inspection/objects",
+            "requestSchema": "CreateInspectionObjectRequest",
+            "requiredFields": [
+                "code",
+                "inspectionSpecialtyCode",
+                "sourceProjectNo",
+                "sourceProjectName",
+                "name"
+            ],
+            "responseSchema": "InspectionObject",
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "POST",
+            "operationId": "InspectionDictionary_createParameter",
+            "path": "/api/inspection/parameters",
+            "requestSchema": "CreateInspectionParameterRequest",
+            "requiredFields": [
+                "code",
+                "name",
+                "rawName",
+                "canonicalName"
+            ],
+            "responseSchema": "InspectionParameter",
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "POST",
+            "operationId": "InspectionDictionary_createSpecialty",
+            "path": "/api/inspection/specialties",
+            "requestSchema": "CreateInspectionSpecialtyRequest",
+            "requiredFields": [
+                "code",
+                "officialNo",
+                "name"
+            ],
+            "responseSchema": "InspectionSpecialty",
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "POST",
+            "operationId": "InspectionDictionary_createStandard",
+            "path": "/api/inspection/standards",
+            "requestSchema": "CreateInspectionStandardRequest",
+            "requiredFields": [
+                "code",
+                "name"
+            ],
+            "responseSchema": "InspectionStandard",
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "InspectionDictionary_deleteObject",
+            "path": "/api/inspection/objects/{code}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "InspectionDictionary_deleteParameter",
+            "path": "/api/inspection/parameters/{code}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "InspectionDictionary_deleteSpecialty",
+            "path": "/api/inspection/specialties/{code}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "InspectionDictionary_deleteStandard",
+            "path": "/api/inspection/standards/{code}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "POST",
+            "operationId": "InspectionDictionary_linkObjectParameter",
+            "path": "/api/inspection/links/object-parameter",
+            "requestSchema": "ObjectParameterLink",
+            "requiredFields": [
+                "inspectionObjectCode",
+                "inspectionParameterCode",
+                "qualificationLevel"
+            ],
+            "responseSchema": null,
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "POST",
+            "operationId": "InspectionDictionary_linkObjectStandard",
+            "path": "/api/inspection/links/object-standard",
+            "requestSchema": "ObjectStandardLink",
+            "requiredFields": [
+                "inspectionObjectCode",
+                "inspectionStandardCode",
+                "role"
+            ],
+            "responseSchema": null,
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "POST",
+            "operationId": "InspectionDictionary_linkSpecialtyObject",
+            "path": "/api/inspection/links/specialty-object",
+            "requestSchema": "SpecialtyObjectLink",
+            "requiredFields": [
+                "inspectionSpecialtyCode",
+                "inspectionObjectCode"
+            ],
+            "responseSchema": null,
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "POST",
+            "operationId": "InspectionDictionary_linkStandardParameter",
+            "path": "/api/inspection/links/standard-parameter",
+            "requestSchema": "StandardParameterLink",
+            "requiredFields": [
+                "inspectionStandardCode",
+                "inspectionParameterCode"
+            ],
+            "responseSchema": null,
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "GET",
+            "operationId": "InspectionDictionary_listObjectParameterLinks",
+            "path": "/api/inspection/links/object-parameter",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "GET",
+            "operationId": "InspectionDictionary_listObjectStandardLinks",
+            "path": "/api/inspection/links/object-standard",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "GET",
+            "operationId": "InspectionDictionary_listObjects",
+            "path": "/api/inspection/objects",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "GET",
+            "operationId": "InspectionDictionary_listParameters",
+            "path": "/api/inspection/parameters",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "GET",
+            "operationId": "InspectionDictionary_listSpecialties",
+            "path": "/api/inspection/specialties",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "GET",
+            "operationId": "InspectionDictionary_listSpecialtyObjectLinks",
+            "path": "/api/inspection/links/specialty-object",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "GET",
+            "operationId": "InspectionDictionary_listStandardParameterLinks",
+            "path": "/api/inspection/links/standard-parameter",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "GET",
+            "operationId": "InspectionDictionary_listStandards",
+            "path": "/api/inspection/standards",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "InspectionDictionary_unlinkObjectParameter",
+            "path": "/api/inspection/links/object-parameter",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "InspectionDictionary_unlinkObjectStandard",
+            "path": "/api/inspection/links/object-standard",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "InspectionDictionary_unlinkSpecialtyObject",
+            "path": "/api/inspection/links/specialty-object",
+            "requestSchema": "SpecialtyObjectLink",
+            "requiredFields": [
+                "inspectionSpecialtyCode",
+                "inspectionObjectCode"
+            ],
+            "responseSchema": null,
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "InspectionDictionary_unlinkStandardParameter",
+            "path": "/api/inspection/links/standard-parameter",
+            "requestSchema": "StandardParameterLink",
+            "requiredFields": [
+                "inspectionStandardCode",
+                "inspectionParameterCode"
+            ],
+            "responseSchema": null,
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "PUT",
+            "operationId": "InspectionDictionary_updateObject",
+            "path": "/api/inspection/objects/{code}",
+            "requestSchema": "UpdateInspectionObjectRequest",
+            "requiredFields": [],
+            "responseSchema": "InspectionObject",
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "PUT",
+            "operationId": "InspectionDictionary_updateParameter",
+            "path": "/api/inspection/parameters/{code}",
+            "requestSchema": "UpdateInspectionParameterRequest",
+            "requiredFields": [],
+            "responseSchema": "InspectionParameter",
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "PUT",
+            "operationId": "InspectionDictionary_updateSpecialty",
+            "path": "/api/inspection/specialties/{code}",
+            "requestSchema": "UpdateInspectionSpecialtyRequest",
+            "requiredFields": [],
+            "responseSchema": "InspectionSpecialty",
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "PUT",
+            "operationId": "InspectionDictionary_updateStandard",
+            "path": "/api/inspection/standards/{code}",
+            "requestSchema": "UpdateInspectionStandardRequest",
+            "requiredFields": [],
+            "responseSchema": "InspectionStandard",
+            "tag": "inspection-dictionary"
+        },
+        {
+            "method": "POST",
+            "operationId": "ParamInterfaces_createParamInterface",
+            "path": "/api/param-interfaces",
+            "requestSchema": "CreateParamInterfaceRequest",
+            "requiredFields": [
+                "code",
+                "componentPath"
+            ],
+            "responseSchema": "ParamInterface",
+            "tag": "param-interfaces"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "ParamInterfaces_deleteParamInterface",
+            "path": "/api/param-interfaces/{code}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "param-interfaces"
+        },
+        {
+            "method": "GET",
+            "operationId": "ParamInterfaces_getParamInterface",
+            "path": "/api/param-interfaces/{code}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": "ParamInterface",
+            "tag": "param-interfaces"
+        },
+        {
+            "method": "POST",
+            "operationId": "ParamInterfaces_linkParamInterface",
+            "path": "/api/param-interfaces/links",
+            "requestSchema": "ParamInterfaceLink",
+            "requiredFields": [
+                "inspectionParameterCode",
+                "paramInterfaceCode"
+            ],
+            "responseSchema": null,
+            "tag": "param-interfaces"
+        },
+        {
+            "method": "GET",
+            "operationId": "ParamInterfaces_listParamInterfaceLinks",
+            "path": "/api/param-interfaces/links",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "param-interfaces"
+        },
+        {
+            "method": "GET",
+            "operationId": "ParamInterfaces_listParamInterfaces",
+            "path": "/api/param-interfaces",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "param-interfaces"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "ParamInterfaces_unlinkParamInterface",
+            "path": "/api/param-interfaces/links",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "param-interfaces"
+        },
+        {
+            "method": "PUT",
+            "operationId": "ParamInterfaces_updateParamInterface",
+            "path": "/api/param-interfaces/{code}",
+            "requestSchema": "UpdateParamInterfaceRequest",
+            "requiredFields": [],
+            "responseSchema": "ParamInterface",
+            "tag": "param-interfaces"
+        },
+        {
+            "method": "POST",
+            "operationId": "Receipts_actFlowApprove",
+            "path": "/api/receipts/approve/act",
+            "requestSchema": "FlowActionRequest",
+            "requiredFields": [
+                "ids",
+                "action",
+                "operator"
+            ],
+            "responseSchema": null,
+            "tag": "receipts"
+        },
+        {
+            "method": "POST",
+            "operationId": "Receipts_actFlowArchived",
+            "path": "/api/receipts/archived/act",
+            "requestSchema": "FlowActionRequest",
+            "requiredFields": [
+                "ids",
+                "action",
+                "operator"
+            ],
+            "responseSchema": null,
+            "tag": "receipts"
+        },
+        {
+            "method": "POST",
+            "operationId": "Receipts_actFlowAssigning",
+            "path": "/api/receipts/assigning/act",
+            "requestSchema": "FlowActionRequest",
+            "requiredFields": [
+                "ids",
+                "action",
+                "operator"
+            ],
+            "responseSchema": null,
+            "tag": "receipts"
+        },
+        {
+            "method": "POST",
+            "operationId": "Receipts_actFlowDataEntry",
+            "path": "/api/receipts/data-entry/act",
+            "requestSchema": "FlowActionRequest",
+            "requiredFields": [
+                "ids",
+                "action",
+                "operator"
+            ],
+            "responseSchema": null,
+            "tag": "receipts"
+        },
+        {
+            "method": "POST",
+            "operationId": "Receipts_actFlowIssuance",
+            "path": "/api/receipts/issuance/act",
+            "requestSchema": "FlowActionRequest",
+            "requiredFields": [
+                "ids",
+                "action",
+                "operator"
+            ],
+            "responseSchema": null,
+            "tag": "receipts"
+        },
+        {
+            "method": "POST",
+            "operationId": "Receipts_actFlowReceiving",
+            "path": "/api/receipts/receiving/act",
+            "requestSchema": "FlowActionRequest",
+            "requiredFields": [
+                "ids",
+                "action",
+                "operator"
+            ],
+            "responseSchema": null,
+            "tag": "receipts"
+        },
+        {
+            "method": "POST",
+            "operationId": "Receipts_actFlowReview",
+            "path": "/api/receipts/review/act",
+            "requestSchema": "FlowActionRequest",
+            "requiredFields": [
+                "ids",
+                "action",
+                "operator"
+            ],
+            "responseSchema": null,
+            "tag": "receipts"
+        },
+        {
+            "method": "PUT",
+            "operationId": "Receipts_assignTask",
+            "path": "/api/receipts/{id}/task",
+            "requestSchema": "AssignTaskRequest",
+            "requiredFields": [],
+            "responseSchema": "SampleReceipt",
+            "tag": "receipts"
+        },
+        {
+            "method": "POST",
+            "operationId": "Receipts_createReceipt",
+            "path": "/api/receipts",
+            "requestSchema": "CreateSampleReceiptRequest",
+            "requiredFields": [
+                "contractId",
+                "commissionCode",
+                "commissionDate",
+                "categoryCode",
+                "receivedBy",
+                "sampleSource",
+                "testCategory"
+            ],
+            "responseSchema": "SampleReceipt",
+            "tag": "receipts"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "Receipts_deleteReceipt",
+            "path": "/api/receipts/{id}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "receipts"
+        },
+        {
+            "method": "GET",
+            "operationId": "Receipts_getReceipt",
+            "path": "/api/receipts/{id}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": "SampleReceipt",
+            "tag": "receipts"
+        },
+        {
+            "method": "GET",
+            "operationId": "Receipts_getReceiptHistory",
+            "path": "/api/receipts/{id}/history",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "receipts"
+        },
+        {
+            "method": "GET",
+            "operationId": "Receipts_listReceipts",
+            "path": "/api/receipts",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "receipts"
+        },
+        {
+            "method": "PUT",
+            "operationId": "Receipts_updateReceipt",
+            "path": "/api/receipts/{id}",
+            "requestSchema": "UpdateSampleReceiptRequest",
+            "requiredFields": [],
+            "responseSchema": "SampleReceipt",
+            "tag": "receipts"
+        },
+        {
+            "method": "POST",
+            "operationId": "ReportNames_createReportName",
+            "path": "/api/report-names",
+            "requestSchema": "CreateInspectionReportNameRequest",
+            "requiredFields": [
+                "code",
+                "name"
+            ],
+            "responseSchema": "InspectionReportName",
+            "tag": "report-names"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "ReportNames_deleteReportName",
+            "path": "/api/report-names/{code}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "report-names"
+        },
+        {
+            "method": "GET",
+            "operationId": "ReportNames_getReportName",
+            "path": "/api/report-names/{code}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": "InspectionReportName",
+            "tag": "report-names"
+        },
+        {
+            "method": "POST",
+            "operationId": "ReportNames_linkObjectReportName",
+            "path": "/api/report-names/links/object",
+            "requestSchema": "ObjectReportNameLink",
+            "requiredFields": [
+                "inspectionObjectCode",
+                "reportNameCode"
+            ],
+            "responseSchema": null,
+            "tag": "report-names"
+        },
+        {
+            "method": "POST",
+            "operationId": "ReportNames_linkReportNameParameter",
+            "path": "/api/report-names/links/parameter",
+            "requestSchema": "ReportNameParameterLink",
+            "requiredFields": [
+                "reportNameCode",
+                "inspectionParameterCode"
+            ],
+            "responseSchema": null,
+            "tag": "report-names"
+        },
+        {
+            "method": "POST",
+            "operationId": "ReportNames_linkReportNameStandard",
+            "path": "/api/report-names/links/standard",
+            "requestSchema": "ReportNameStandardLink",
+            "requiredFields": [
+                "reportNameCode",
+                "inspectionStandardCode",
+                "role"
+            ],
+            "responseSchema": null,
+            "tag": "report-names"
+        },
+        {
+            "method": "GET",
+            "operationId": "ReportNames_listObjectReportNameLinks",
+            "path": "/api/report-names/links/object",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "report-names"
+        },
+        {
+            "method": "GET",
+            "operationId": "ReportNames_listReportNameParameterLinks",
+            "path": "/api/report-names/links/parameter",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "report-names"
+        },
+        {
+            "method": "GET",
+            "operationId": "ReportNames_listReportNameStandardLinks",
+            "path": "/api/report-names/links/standard",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "report-names"
+        },
+        {
+            "method": "GET",
+            "operationId": "ReportNames_listReportNames",
+            "path": "/api/report-names",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "report-names"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "ReportNames_unlinkObjectReportName",
+            "path": "/api/report-names/links/object",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "report-names"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "ReportNames_unlinkReportNameParameter",
+            "path": "/api/report-names/links/parameter",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "report-names"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "ReportNames_unlinkReportNameStandard",
+            "path": "/api/report-names/links/standard",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "report-names"
+        },
+        {
+            "method": "PUT",
+            "operationId": "ReportNames_updateReportName",
+            "path": "/api/report-names/{code}",
+            "requestSchema": "UpdateInspectionReportNameRequest",
+            "requiredFields": [],
+            "responseSchema": "InspectionReportName",
+            "tag": "report-names"
+        },
+        {
+            "method": "POST",
+            "operationId": "Samples_createSample",
+            "path": "/api/samples",
+            "requestSchema": "CreateSampleRequest",
+            "requiredFields": [
+                "receiptId",
+                "sampleCode"
+            ],
+            "responseSchema": "Sample",
+            "tag": "samples"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "Samples_deleteSample",
+            "path": "/api/samples/{id}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "samples"
+        },
+        {
+            "method": "GET",
+            "operationId": "Samples_getSample",
+            "path": "/api/samples/{id}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": "Sample",
+            "tag": "samples"
+        },
+        {
+            "method": "GET",
+            "operationId": "Samples_listSamples",
+            "path": "/api/samples",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "samples"
+        },
+        {
+            "method": "PUT",
+            "operationId": "Samples_updateSample",
+            "path": "/api/samples/{id}",
+            "requestSchema": "UpdateSampleRequest",
+            "requiredFields": [],
+            "responseSchema": "Sample",
+            "tag": "samples"
+        },
+        {
+            "method": "PUT",
+            "operationId": "Samples_updateSampleExt",
+            "path": "/api/samples/{id}/ext",
+            "requestSchema": "UpdateSampleExtRequest",
+            "requiredFields": [
+                "ext"
+            ],
+            "responseSchema": "Sample",
+            "tag": "samples"
+        },
+        {
+            "method": "GET",
+            "operationId": "Summary_getDashboardStats",
+            "path": "/api/summary/stats",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": "DashboardStats",
+            "tag": "summary"
+        },
+        {
+            "method": "GET",
+            "operationId": "Summary_getReportSummary",
+            "path": "/api/summary",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": "SummaryData",
+            "tag": "summary"
+        },
+        {
+            "method": "POST",
+            "operationId": "TechnicalRequirements_createTechnicalRequirement",
+            "path": "/api/technical-requirements",
+            "requestSchema": "CreateTechnicalRequirementRequest",
+            "requiredFields": [
+                "inspectionObjectCode",
+                "inspectionParameterCode",
+                "judgmentStandardCode"
+            ],
+            "responseSchema": "TechnicalRequirement",
+            "tag": "technical-requirements"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "TechnicalRequirements_deleteTechnicalRequirement",
+            "path": "/api/technical-requirements/{inspectionObjectCode}/{inspectionParameterCode}/{judgmentStandardCode}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "technical-requirements"
+        },
+        {
+            "method": "GET",
+            "operationId": "TechnicalRequirements_getTechnicalRequirement",
+            "path": "/api/technical-requirements/{inspectionObjectCode}/{inspectionParameterCode}/{judgmentStandardCode}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": "TechnicalRequirement",
+            "tag": "technical-requirements"
+        },
+        {
+            "method": "GET",
+            "operationId": "TechnicalRequirements_listTechnicalRequirements",
+            "path": "/api/technical-requirements",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "technical-requirements"
+        },
+        {
+            "method": "PUT",
+            "operationId": "TechnicalRequirements_updateTechnicalRequirement",
+            "path": "/api/technical-requirements/{inspectionObjectCode}/{inspectionParameterCode}/{judgmentStandardCode}",
+            "requestSchema": "UpdateTechnicalRequirementRequest",
+            "requiredFields": [],
+            "responseSchema": "TechnicalRequirement",
+            "tag": "technical-requirements"
+        },
+        {
+            "method": "POST",
+            "operationId": "TestRecords_createTestRecord",
+            "path": "/api/test-records",
+            "requestSchema": "CreateTestRecordRequest",
+            "requiredFields": [
+                "sampleId",
+                "parameterCode",
+                "requirement",
+                "result"
+            ],
+            "responseSchema": "TestRecord",
+            "tag": "test-records"
+        },
+        {
+            "method": "DELETE",
+            "operationId": "TestRecords_deleteTestRecord",
+            "path": "/api/test-records/{id}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "test-records"
+        },
+        {
+            "method": "GET",
+            "operationId": "TestRecords_getTestRecord",
+            "path": "/api/test-records/{id}",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": "TestRecord",
+            "tag": "test-records"
+        },
+        {
+            "method": "GET",
+            "operationId": "TestRecords_listTestRecords",
+            "path": "/api/test-records",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": null,
+            "tag": "test-records"
+        },
+        {
+            "method": "PATCH",
+            "operationId": "TestRecords_setVerdict",
+            "path": "/api/test-records/{id}/verdict",
+            "requestSchema": null,
+            "requiredFields": [],
+            "responseSchema": "TestRecord",
+            "tag": "test-records"
+        },
+        {
+            "method": "PUT",
+            "operationId": "TestRecords_updateTestRecord",
+            "path": "/api/test-records/{id}",
+            "requestSchema": "UpdateTestRecordRequest",
+            "requiredFields": [],
+            "responseSchema": "TestRecord",
+            "tag": "test-records"
+        }
+    ],
+    "schema": 1
+}
