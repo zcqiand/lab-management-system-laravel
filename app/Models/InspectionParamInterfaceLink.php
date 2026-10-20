@@ -9,4 +9,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+/**
+ * @property string $inspection_parameter_code
+ * @property string $param_interface_code
+ * @property string|null $report_name_code
+ * @property array<string, mixed>|null $config
+ * @property string $created_at
+ * @property string $updated_at
+ */
 class InspectionParamInterfaceLink extends Generated\InspectionParamInterfaceLink {}

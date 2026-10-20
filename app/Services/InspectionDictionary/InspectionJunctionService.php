@@ -9,10 +9,10 @@ use App\Models\InspectionObjectStandard;
 use App\Models\InspectionSpecialtyObject;
 use App\Models\InspectionStandardParameter;
 
-// M06 检测能力字典 junction link/unlink/list —— lab-springboot
+// M06 检测能力字典 junction 全 8 组 link/unlink/list —— lab-springboot
 // InspectionJunctionService 1:1 镜像（B6/B7）。4 组核心在本类；报告名称 3 组
-// 在 ReportNameJunctions trait（rails 同名 module include 同位）；参数接口 1 组
-// 随 param-interfaces 任务接入。
+// 与参数接口 1 组在 ReportNameJunctions / ParamInterfaceJunctions trait
+// （rails 同名 module include 同位）。
 //
 // - link 全部 upsert（同 PK 重复时整行覆盖，含 created_at —— Hibernate merge 语义）
 // - unlink 幂等 204：命中才删，未命中静默 no-op（REQ-2026-001 四方一致），不校验键
@@ -21,6 +21,7 @@ use App\Models\InspectionStandardParameter;
 final class InspectionJunctionService
 {
     use JunctionHelpers;
+    use ParamInterfaceJunctions;
     use ReportNameJunctions;
 
     // === specialty ↔ object ===

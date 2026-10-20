@@ -9,4 +9,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+/**
+ * @property string $code
+ * @property string|null $name
+ * @property string $component_path
+ * @property string|null $description
+ * @property bool|null $is_official
+ * @property int $sort_order
+ * @property array<string, mixed>|null $config
+ * @property string $created_at
+ * @property string $updated_at
+ */
 class InspectionParamInterface extends Generated\InspectionParamInterface {}
