@@ -90,7 +90,7 @@ final class CalculationMethodService
                 'report_name_code' => $body['reportNameCode'] ?? null,
                 // 镜像 CalculationMethodMapper.fromCreate 的枚举缺省
                 // algorithmType=manual / specimenCount=1 / sortOrder=0
-                'algorithm_type' => $body['algorithmType'] ?? 'manual',
+                'algorithm_type' => $this->defaultFor($body, 'algorithmType', 'manual'),
                 'specimen_count' => $body['specimenCount'] ?? 1,
                 'formula' => $body['formula'] ?? null,
                 'conditions' => $body['conditions'] ?? null,

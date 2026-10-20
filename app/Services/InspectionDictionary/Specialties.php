@@ -101,7 +101,7 @@ final class Specialties
             'is_official' => $body['isOfficial'] ?? true,
             'enabled' => $body['enabled'] ?? true,
             // rails body['sortOrder'] || 0 镜像：缺省 0
-            'sort_order' => $body['sortOrder'] ?? 0,
+            'sort_order' => $this->defaultFor($body, 'sortOrder', 0),
         ];
     }
 

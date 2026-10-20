@@ -12,17 +12,17 @@ namespace App\Models;
 /**
  * @property string $id
  * @property string $contract_code
- * @property string|null $client_unit
- * @property string|null $project_name
+ * @property string $client_unit
+ * @property string $project_name
  * @property string|null $project_location
- * @property string|null $construction_unit
+ * @property string $construction_unit
  * @property string|null $inspection_specialty_code
  * @property string|null $building_unit
  * @property string|null $supervisor_unit
  * @property string|null $inspection_person
  * @property string|null $inspection_phone
- * @property string|null $witness_unit
- * @property string|null $witness
+ * @property string $witness_unit
+ * @property string $witness
  * @property string|null $witness_phone
  * @property string|null $contact_person
  * @property string|null $contact_phone

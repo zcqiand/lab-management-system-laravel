@@ -45,4 +45,18 @@ trait UpdateFields
 
         return array_key_exists($jsonKey, $body);
     }
+
+    /**
+     * rails `body[json_key] || default` 同构 coalesce（Ruby 真值口径：仅 nil/false
+     * 落缺省，空串/0 是合法值保留）。PHP `??` 只认 null，false 会穿透与此分叉
+     * （5.117 清理批 ③）。
+     *
+     * @param  array<string, mixed>  $body
+     */
+    private function defaultFor(array $body, string $jsonKey, mixed $default): mixed
+    {
+        $value = $body[$jsonKey] ?? null;
+
+        return $value !== null && $value !== false ? $value : $default;
+    }
 }

@@ -142,6 +142,21 @@ final class CatalogTest extends TestCase
 
     #[DataProvider('kinds')]
     #[Test]
+    public function m04_get_unknown_code_is_404_rails_verbatim_message(string $kind): void
+    {
+        // rails `<label> not found: <code>`（CatalogService KINDS label）——5.117 清理批 ②
+        // （{kind}/{code} 无 GET show，miss 断言走 PUT 面）
+        $labels = ['brands' => 'Brand', 'models' => 'Model', 'specs' => 'Spec', 'grades' => 'Grade'];
+
+        $response = $this->apiPut("/api/catalog/{$kind}/no-such-code", ['name' => 'x']);
+
+        $response->assertNotFound();
+        $this->assertSame('NOT_FOUND', $response->json('code'));
+        $this->assertSame("{$labels[$kind]} not found: no-such-code", $response->json('message'));
+    }
+
+    #[DataProvider('kinds')]
+    #[Test]
     public function m04_update_unknown_code_is_404(string $kind): void
     {
         $response = $this->apiPut("/api/catalog/{$kind}/no-such-code", ['name' => 'x']);
@@ -177,6 +192,19 @@ final class CatalogTest extends TestCase
     }
 
     // ==== 助手（rails LabSupport#create_entry 同位——service 直造，不过 HTTP） ====
+
+    #[DataProvider('kinds')]
+    #[Test]
+    public function m04_create_false_sort_order_falls_back_zero(string $kind): void
+    {
+        // rails entry_attrs `body['sortOrder'] || 0`（Ruby 真值）——5.117 清理批 ③
+        $code = $this->uniqCode("ct-{$kind[0]}");
+
+        $entry = (new CatalogService)->create(self::SINGULAR[$kind], self::TENANT_A,
+            ['code' => $code, 'name' => 'x', 'sortOrder' => false]);
+
+        $this->assertSame(0, $entry['sort_order']);
+    }
 
     /**
      * @return array<string, mixed>

@@ -106,7 +106,7 @@ final class Parameters
             // rails body['aliases'] || [] 镜像：缺省空数组
             'aliases' => $body['aliases'] ?? [],
             'unit' => $body['unit'] ?? null,
-            'source_type' => $body['sourceType'] ?? 'official',
+            'source_type' => $this->defaultFor($body, 'sourceType', 'official'),
             'sort_order' => $body['sortOrder'] ?? 0,
         ];
     }
@@ -116,14 +116,19 @@ final class Parameters
      */
     private function dto(InspectionParameter $e): array
     {
+        // 镜像 deserialize：aliases 病态标量 -> []（响应恒数组）。列 NOT NULL 但
+        // jsonb 可容病态标量——经 mixed 局部变量做防御判定（@property 已收窄，
+        // 直接 is_array 属性会被 larastan 判 alreadyNarrowedType）
+        /** @var mixed $rawAliases */
+        $rawAliases = $e->aliases;
+
         return [
             'code' => $e->code,
             'name' => $e->name,
             'raw_name' => $e->raw_name,
             'canonical_name' => $e->canonical_name,
             'method_text' => $e->method_text,
-            // 镜像 deserialize：aliases null/非数组 -> []（响应恒数组）
-            'aliases' => is_array($e->aliases) ? $e->aliases : [],
+            'aliases' => is_array($rawAliases) ? $rawAliases : [],
             'unit' => $e->unit,
             'source_type' => $e->source_type,
             'sort_order' => $e->sort_order,

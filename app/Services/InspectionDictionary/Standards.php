@@ -98,7 +98,7 @@ final class Standards
             'name' => $body['name'],
             'version' => $body['version'] ?? null,
             // rails body['status'] || 'active' 镜像：缺省 active
-            'status' => $body['status'] ?? 'active',
+            'status' => $this->defaultFor($body, 'status', 'active'),
             'source_document_id' => $body['sourceDocumentId'] ?? null,
             'source_hash' => $body['sourceHash'] ?? null,
             'sort_order' => $body['sortOrder'] ?? 0,

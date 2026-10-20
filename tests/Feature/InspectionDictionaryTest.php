@@ -276,6 +276,84 @@ final class InspectionDictionaryTest extends TestCase
     }
 
     #[Test]
+    public function m06_parameter_create_false_source_type_falls_back_official(): void
+    {
+        // rails body['sourceType'] || 'official'（Ruby 真值：false 落缺省）——5.117 清理批 ③
+        $code = $this->uniqCode('ct-prm');
+
+        $create = $this->apiPost('/api/inspection/parameters', [
+            'code' => $code, 'name' => "prm {$code}", 'sourceType' => false,
+        ]);
+
+        $create->assertOk();
+        $this->assertSame('official', $create->json('sourceType'));
+    }
+
+    #[Test]
+    public function m06_standard_create_false_status_falls_back_active(): void
+    {
+        // rails body['status'] || 'active'——5.117 清理批 ③
+        $code = $this->uniqCode('ct-std');
+
+        $create = $this->apiPost('/api/inspection/standards', [
+            'code' => $code, 'name' => "std {$code}", 'status' => false,
+        ]);
+
+        $create->assertOk();
+        $this->assertSame('active', $create->json('status'));
+    }
+
+    #[Test]
+    public function m06_object_create_false_sort_order_falls_back_zero(): void
+    {
+        // rails body['sortOrder'] || 0——5.117 清理批 ③
+        $seed = $this->seedDictionary();
+        $code = $this->uniqCode('ct-obj');
+
+        $create = $this->apiPost('/api/inspection/objects', [
+            'code' => $code, 'name' => "obj {$code}",
+            'inspectionSpecialtyCode' => $seed['specialty']->code,
+            'sourceProjectNo' => $code, 'sourceProjectName' => "proj {$code}",
+            'sortOrder' => false,
+        ]);
+
+        $create->assertOk();
+        $this->assertSame(0, $create->json('sortOrder'));
+    }
+
+    #[Test]
+    public function m06_specialty_create_false_sort_order_falls_back_zero(): void
+    {
+        // rails body['sortOrder'] || 0——5.117 清理批 ③
+        $code = $this->uniqCode('ct-sp');
+
+        $create = $this->apiPost('/api/inspection/specialties', [
+            'code' => $code, 'officialNo' => "ON-{$code}", 'name' => "sp {$code}", 'sortOrder' => false,
+        ]);
+
+        $create->assertOk();
+        $this->assertSame(0, $create->json('sortOrder'));
+    }
+
+    #[Test]
+    public function m06_object_parameter_link_false_qualification_level_falls_back_qualified(): void
+    {
+        // rails body['qualificationLevel'] || 'QUALIFIED'（object↔parameter junction）——5.117 清理批 ③
+        $seed = $this->seedDictionary();
+        $body = ['inspectionObjectCode' => $seed['object']->code,
+            'inspectionParameterCode' => $seed['parameter']->code, 'qualificationLevel' => false];
+
+        $this->postJson('/api/inspection/links/object-parameter', $body, $this->authHeader())
+            ->assertNoContent();
+
+        $list = $this->apiGet('/api/inspection/links/object-parameter?'.http_build_query([
+            'inspectionObjectCode' => $seed['object']->code,
+        ]));
+        $list->assertOk();
+        $this->assertSame('QUALIFIED', $list->json('items.0.qualificationLevel'));
+    }
+
+    #[Test]
     public function m06_without_token_is_401(): void
     {
         $this->getJson('/api/inspection/specialties')->assertUnauthorized();

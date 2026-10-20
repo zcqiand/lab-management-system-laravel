@@ -140,6 +140,26 @@ final class CalculationMethodsTest extends TestCase
     }
 
     #[Test]
+    public function m06_f05_create_false_algorithm_type_falls_back_manual(): void
+    {
+        // rails body['algorithmType'] || 'manual'（Ruby 真值）——5.117 清理批 ③
+        $seed = $this->seedDictionary();
+
+        (new CalculationMethodService)->create([
+            'inspectionObjectCode' => $seed['object']->code,
+            'inspectionParameterCode' => $seed['parameter']->code,
+            'formula' => 'value * 2',
+            'algorithmType' => false,
+        ]);
+
+        $rows = $this->apiGet('/api/calculation-methods?'.http_build_query([
+            'inspectionObjectCode' => $seed['object']->code,
+            'inspectionParameterCode' => $seed['parameter']->code,
+        ]))->assertOk()->json();
+        $this->assertSame('manual', $rows[0]['algorithmType']);
+    }
+
+    #[Test]
     public function m06_f05_without_token_is_401(): void
     {
         $this->getJson('/api/calculation-methods')->assertUnauthorized();

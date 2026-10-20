@@ -107,7 +107,7 @@ final class Objects
             'is_optional_for_qualification' => $body['isOptionalForQualification'] ?? false,
             'is_official' => $body['isOfficial'] ?? true,
             'enabled' => $body['enabled'] ?? true,
-            'sort_order' => $body['sortOrder'] ?? 0,
+            'sort_order' => $this->defaultFor($body, 'sortOrder', 0),
         ];
     }
 

@@ -7,11 +7,8 @@ namespace App\Http\Controllers;
 use App\Exceptions\InvalidCredentials;
 use App\Services\Auth\JwtService;
 use App\Support\Camel;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use InvalidArgumentException;
 
 // 家族契约底座（rails app/controllers/application_controller.rb 逐语义移植；saas
 // laravel 同名件同构）：camelCase JSON 渲染 + 错误体 {code,message} 助手 + 分页信封 +
@@ -24,17 +21,6 @@ abstract class Controller
     private const UUID_RE = '/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/D';
 
     /**
-     * 路由壳期统一 501 占位（Task 3）。
-     *
-     * 业务实装任务逐 action 替换为真实现；501 让「已注册未实装」在契约测试与
-     * contract-test live 两面都显形，不冒充 200 空成功。
-     */
-    protected function notImplemented(): JsonResponse
-    {
-        return response()->json(['code' => 'NOT_IMPLEMENTED', 'message' => 'not implemented yet'], 501);
-    }
-
-    /**
      * snake_case → lowerCamel 深变换渲染（家族 DTO 形状是 camelCase，DB 列是 snake_case）。
      *
      * @param  array<array-key, mixed>  $data
@@ -44,54 +30,13 @@ abstract class Controller
         return response()->json(Camel::deep($data), $status);
     }
 
+    /**
+     * 统一错误体 {code, message}（rails render_error 同构）：错误映射表在
+     * bootstrap/app.php withExceptions，本助手供控制器显式 4xx 面直接使用。
+     */
     protected function renderError(int $status, string $code, string $message): JsonResponse
     {
         return response()->json(['code' => $code, 'message' => $message], $status);
-    }
-
-    /**
-     * 分页参数（rails page_params 镜像）：page=0 / pageSize=20 缺省（query key 是
-     * camelCase 的 pageSize，契约口径）；page<0 或 pageSize<1 → IAE → 基座 400
-     * BAD_REQUEST。
-     *
-     * @return array{0: int, 1: int} [page, pageSize]
-     */
-    protected function pageParams(Request $request): array
-    {
-        $page = (int) $request->query('page', '0');
-        $pageSize = (int) $request->query('pageSize', '20');
-        if ($page < 0) {
-            throw new InvalidArgumentException('page must be >= 0');
-        }
-        if ($pageSize < 1) {
-            throw new InvalidArgumentException('pageSize must be >= 1');
-        }
-
-        return [$page, $pageSize];
-    }
-
-    /**
-     * 家族分页信封 { items, page, pageSize, total }（contract-test 约定）：count 全量、
-     * limit/offset 切页、mapper 逐行装配后统一 renderCamel（page_size 经 Camel 转
-     * pageSize 出线）。
-     *
-     * @param  Builder<Model>  $query
-     * @param  callable(mixed): array<array-key, mixed>  $mapper
-     */
-    protected function renderPaginated(Builder $query, callable $mapper): JsonResponse
-    {
-        [$page, $pageSize] = $this->pageParams(request());
-        $total = (clone $query)->count();
-        $items = $query->offset($page * $pageSize)->limit($pageSize)->get()
-            ->map(fn ($row): array => $mapper($row))
-            ->all();
-
-        return $this->renderCamel([
-            'items' => $items,
-            'page' => $page,
-            'page_size' => $pageSize,
-            'total' => $total,
-        ]);
     }
 
     /**

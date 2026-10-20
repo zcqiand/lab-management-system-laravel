@@ -13,7 +13,7 @@ use InvalidArgumentException;
 // （rails app/controllers/concerns/business_envelope.rb 逐语义移植）。
 // - 信封：page=1/pageSize=20 缺省（2026-09-16 T11 live 实证 1-based，lab-ct
 //   contracts.test.ts "分页 defaults 全等" 锁定）；items 全量回（不切片，total =
-//   items.size）——与基座 renderPaginated（saas 裸 UUID 分页切片口径）是有意差异。
+//   items.size）——家族业务域信封口径，与码表域分页各照其 rails 源。
 // - 404：业务域 id 带前缀（C-/R-/S-/TR-），基座 badUuidParam 的裸 UUID 启发式会把
 //   前缀 id 折成 400——消费方 catch ModelNotFoundException 后自行
 //   renderError(404, 'NOT_FOUND')（rails 覆写 rescue_from 同形），禁落基座 UUID 分叉。

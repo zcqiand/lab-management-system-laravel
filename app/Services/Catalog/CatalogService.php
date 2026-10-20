@@ -8,6 +8,7 @@ use App\Models\InspectionBrand;
 use App\Models\InspectionGrade;
 use App\Models\InspectionModel;
 use App\Models\InspectionSpec;
+use App\Services\UpdateFields;
 use App\Support\Time;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use InvalidArgumentException;
@@ -23,6 +24,8 @@ use InvalidArgumentException;
 // @phpstan-type CatalogEntry InspectionBrand|InspectionModel|InspectionSpec|InspectionGrade
 final class CatalogService
 {
+    use UpdateFields;
+
     /** @var array<string, array{model: class-string<InspectionBrand>|class-string<InspectionModel>|class-string<InspectionSpec>|class-string<InspectionGrade>, label: string}> */
     private const KINDS = [
         'brand' => ['model' => InspectionBrand::class, 'label' => 'Brand'],
@@ -122,7 +125,8 @@ final class CatalogService
             ->where('code', $code)
             ->first();
         if ($entry === null) {
-            throw (new ModelNotFoundException)->setModel($this->modelClass($kind), [$code]);
+            // rails `"<label> not found: <code>"` 逐字（基座 404 映射取 exception message）
+            throw new ModelNotFoundException(self::KINDS[$kind]['label']." not found: {$code}");
         }
 
         return $entry;
@@ -140,8 +144,8 @@ final class CatalogService
             'inspection_object_code' => $body['inspectionObjectCode'] ?? null,
             'name' => $body['name'],
             'remark' => $body['remark'] ?? null,
-            // rails body['sortOrder'] || 0 镜像：缺省 0
-            'sort_order' => $body['sortOrder'] ?? 0,
+            // rails body['sortOrder'] || 0 镜像（Ruby 真值 coalesce）
+            'sort_order' => $this->defaultFor($body, 'sortOrder', 0),
             'created_at' => $now,
             'updated_at' => $now,
         ];

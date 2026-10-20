@@ -8,6 +8,7 @@ use App\Models\InspectionObjectParameter;
 use App\Models\InspectionObjectStandard;
 use App\Models\InspectionSpecialtyObject;
 use App\Models\InspectionStandardParameter;
+use App\Services\UpdateFields;
 
 // M06 检测能力字典 junction 全 8 组 link/unlink/list —— lab-springboot
 // InspectionJunctionService 1:1 镜像（B6/B7）。4 组核心在本类；报告名称 3 组
@@ -23,6 +24,7 @@ final class InspectionJunctionService
     use JunctionHelpers;
     use ParamInterfaceJunctions;
     use ReportNameJunctions;
+    use UpdateFields;
 
     // === specialty ↔ object ===
 
@@ -76,7 +78,7 @@ final class InspectionJunctionService
         $this->upsert(InspectionObjectParameter::class,
             ['inspection_object_code' => $body['inspectionObjectCode'],
                 'inspection_parameter_code' => $body['inspectionParameterCode']],
-            ['qualification_level' => $body['qualificationLevel'] ?? 'QUALIFIED',
+            ['qualification_level' => $this->defaultFor($body, 'qualificationLevel', 'QUALIFIED'),
                 'source_page' => $body['sourcePage'] ?? null,
                 'remark' => $body['remark'] ?? null]);
     }
