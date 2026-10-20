@@ -9,4 +9,14 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+/**
+ * @property string $code
+ * @property string $official_no
+ * @property string $name
+ * @property bool $is_official
+ * @property bool $enabled
+ * @property int $sort_order
+ * @property string $created_at
+ * @property string $updated_at
+ */
 class InspectionSpecialty extends Generated\InspectionSpecialty {}

@@ -9,4 +9,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+/**
+ * @property string $inspection_object_code
+ * @property string $inspection_parameter_code
+ * @property string $qualification_level
+ * @property int|null $source_page
+ * @property string|null $remark
+ * @property string $created_at
+ * @property string $updated_at
+ */
 class InspectionObjectParameter extends Generated\InspectionObjectParameter {}

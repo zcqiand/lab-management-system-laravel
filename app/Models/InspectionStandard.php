@@ -9,4 +9,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+/**
+ * @property string $code
+ * @property string $name
+ * @property string|null $version
+ * @property string $status
+ * @property string|null $source_document_id
+ * @property string|null $source_hash
+ * @property int $sort_order
+ * @property string $created_at
+ * @property string $updated_at
+ */
 class InspectionStandard extends Generated\InspectionStandard {}

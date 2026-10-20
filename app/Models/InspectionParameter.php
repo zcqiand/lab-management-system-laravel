@@ -9,4 +9,17 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+/**
+ * @property string $code
+ * @property string $name
+ * @property string $raw_name
+ * @property string $canonical_name
+ * @property string|null $method_text
+ * @property array<int, mixed>|null $aliases
+ * @property string|null $unit
+ * @property string $source_type
+ * @property int $sort_order
+ * @property string $created_at
+ * @property string $updated_at
+ */
 class InspectionParameter extends Generated\InspectionParameter {}
