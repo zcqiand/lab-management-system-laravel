@@ -118,6 +118,14 @@ trait LabSupport
         return $this->getJson($path, $this->authHeader($tenantId));
     }
 
+    /**
+     * @param  array<string, mixed>  $payload
+     */
+    public function apiPatch(string $path, array $payload, ?string $tenantId = null): TestResponse
+    {
+        return $this->patchJson($path, $payload, $this->authHeader($tenantId));
+    }
+
     public function apiDelete(string $path, ?string $tenantId = null): TestResponse
     {
         return $this->deleteJson($path, [], $this->authHeader($tenantId));

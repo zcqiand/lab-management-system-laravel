@@ -9,4 +9,17 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+/**
+ * @property string $id
+ * @property string $sample_id
+ * @property string $parameter_code
+ * @property string|null $standard_code
+ * @property string|null $requirement_code
+ * @property string $requirement
+ * @property string $result
+ * @property string|null $verdict
+ * @property string $created_at
+ * @property string $updated_at
+ * @property string $tenant_id
+ */
 class TestRecord extends Generated\TestRecord {}
