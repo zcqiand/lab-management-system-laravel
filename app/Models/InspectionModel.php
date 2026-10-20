@@ -10,4 +10,14 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+/**
+ * @property string $code
+ * @property string|null $inspection_object_code
+ * @property string $name
+ * @property string|null $remark
+ * @property int $sort_order
+ * @property string $created_at
+ * @property string $updated_at
+ * @property string $tenant_id
+ */
 class InspectionModel extends Generated\InspectionModel {}
