@@ -4,37 +4,102 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Concerns\BusinessEnvelope;
+use App\Services\CalculationMethod\CalculationMethodService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
- * calculation-methods 计算方法（复合 PK object×parameter）路由壳（Task 3）：契约面 1:1 对 generated/api_manifest.json
- * （tag calculation-methods，5 条）。action 一律 501 占位——业务实装在后续 tag 任务
- * 逐个替换本方法体，签名（路径参数）已按契约钉死。
+ * M06.F05 计算方法 controller（lab-springboot CalculationMethodController 镜像 →
+ * rails CalculationMethodsController 同构移植）。5 端点；平台级字典不读 JWT
+ * tenant claim（仍挂 JwtGuard）；list 返回裸数组（无分页信封）。
+ * 404 消息逐字照 rails found!：「CalculationMethod not found: <object>/<parameter>」。
  */
 final class CalculationMethodsController extends Controller
 {
-    public function createCalculationMethod(): JsonResponse
+    use BusinessEnvelope;
+
+    // @impl M06.F05.I01 (book anchor xr-know-012)
+    public function listCalculationMethods(Request $request): JsonResponse
     {
-        return $this->notImplemented();
+        return $this->renderCamel(
+            (new CalculationMethodService)->list(
+                $this->queryParam($request, 'inspectionObjectCode'),
+                $this->queryParam($request, 'inspectionParameterCode')
+            )
+        );
     }
 
-    public function deleteCalculationMethod(): JsonResponse
+    // @impl M06.F05.I02 (book anchor xr-know-012)
+    public function getCalculationMethod(Request $request): JsonResponse
     {
-        return $this->notImplemented();
+        [$objectCode, $parameterCode] = $this->pathKeys($request);
+        try {
+            return $this->renderCamel(
+                (new CalculationMethodService)->get($objectCode, $parameterCode)
+            );
+        } catch (ModelNotFoundException) {
+            return $this->renderError(
+                404,
+                'NOT_FOUND',
+                "CalculationMethod not found: {$objectCode}/{$parameterCode}"
+            );
+        }
     }
 
-    public function getCalculationMethod(): JsonResponse
+    // @impl M06.F05.I03 (book anchor xr-know-012)
+    public function createCalculationMethod(Request $request): JsonResponse
     {
-        return $this->notImplemented();
+        return $this->renderCamel(
+            (new CalculationMethodService)->create($this->bodyParams($request))
+        );
     }
 
-    public function listCalculationMethods(): JsonResponse
+    // @impl M06.F05.I04 (book anchor xr-know-012)
+    public function updateCalculationMethod(Request $request): JsonResponse
     {
-        return $this->notImplemented();
+        [$objectCode, $parameterCode] = $this->pathKeys($request);
+        try {
+            return $this->renderCamel(
+                (new CalculationMethodService)->update($objectCode, $parameterCode, $this->bodyParams($request))
+            );
+        } catch (ModelNotFoundException) {
+            return $this->renderError(
+                404,
+                'NOT_FOUND',
+                "CalculationMethod not found: {$objectCode}/{$parameterCode}"
+            );
+        }
     }
 
-    public function updateCalculationMethod(): JsonResponse
+    // @impl M06.F05.I05 (book anchor xr-know-012)
+    public function deleteCalculationMethod(Request $request): JsonResponse
     {
-        return $this->notImplemented();
+        [$objectCode, $parameterCode] = $this->pathKeys($request);
+        try {
+            (new CalculationMethodService)->delete($objectCode, $parameterCode);
+        } catch (ModelNotFoundException) {
+            return $this->renderError(
+                404,
+                'NOT_FOUND',
+                "CalculationMethod not found: {$objectCode}/{$parameterCode}"
+            );
+        }
+
+        return response()->json()->setStatusCode(204);
+    }
+
+    // ==== private 段 ====
+
+    /**
+     * @return array{0: string, 1: string}
+     */
+    private function pathKeys(Request $request): array
+    {
+        return [
+            (string) $request->route('inspectionObjectCode'),
+            (string) $request->route('inspectionParameterCode'),
+        ];
     }
 }

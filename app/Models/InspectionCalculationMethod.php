@@ -10,4 +10,19 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+/**
+ * @property string $inspection_object_code
+ * @property string $inspection_parameter_code
+ * @property string|null $testing_standard_code
+ * @property string|null $report_name_code
+ * @property string $algorithm_type
+ * @property int $specimen_count
+ * @property string|null $formula
+ * @property string|null $conditions
+ * @property string|null $rounding_rule
+ * @property string|null $remark
+ * @property int $sort_order
+ * @property string $created_at
+ * @property string $updated_at
+ */
 class InspectionCalculationMethod extends Generated\InspectionCalculationMethod {}
