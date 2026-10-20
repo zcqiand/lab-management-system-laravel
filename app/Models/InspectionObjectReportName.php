@@ -9,4 +9,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+/**
+ * @property string $inspection_object_code
+ * @property string $report_name_code
+ * @property string|null $remark
+ * @property string $created_at
+ * @property string $updated_at
+ */
 class InspectionObjectReportName extends Generated\InspectionObjectReportName {}

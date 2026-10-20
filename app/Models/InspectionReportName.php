@@ -9,4 +9,16 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+/**
+ * @property string $code
+ * @property string $name
+ * @property string|null $full_name
+ * @property string|null $template_path
+ * @property string|null $summary_name
+ * @property array<int, mixed>|null $ext_fields
+ * @property string|null $description
+ * @property int $sort_order
+ * @property string $created_at
+ * @property string $updated_at
+ */
 class InspectionReportName extends Generated\InspectionReportName {}
