@@ -9,4 +9,29 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+/**
+ * @property string $id
+ * @property string $receipt_id
+ * @property string $sample_code
+ * @property string|null $sample_name
+ * @property string|null $model
+ * @property string|null $specification
+ * @property string|null $grade
+ * @property string|null $brand
+ * @property string|null $manufacturer
+ * @property string|null $structural_part
+ * @property string|null $represent_quantity
+ * @property string|null $sample_quantity
+ * @property string|null $batch_number
+ * @property string|null $supply_unit
+ * @property string|null $arrival_date
+ * @property string|null $sampling_date
+ * @property string|null $curing_condition
+ * @property string|null $age
+ * @property array<mixed>|null $ext
+ * @property string|null $remark
+ * @property string $created_at
+ * @property string $updated_at
+ * @property string $tenant_id
+ */
 class Sample extends Generated\Sample {}
