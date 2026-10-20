@@ -4,37 +4,81 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Concerns\BusinessEnvelope;
+use App\Services\Contracts\ContractService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
- * contracts 委托合同（M02，tenant 隔离）路由壳（Task 3）：契约面 1:1 对 generated/api_manifest.json
- * （tag contracts，5 条）。action 一律 501 占位——业务实装在后续 tag 任务
- * 逐个替换本方法体，签名（路径参数）已按契约钉死。
+ * contracts 委托合同（M02，tenant 隔离；lab-springboot ContractController 镜像 →
+ * rails ContractsController 同构移植，B3，5 端点）。契约面 1:1 对
+ * generated/api_manifest.json（tag contracts，5 条）。
+ *
+ * 404 语义走 BusinessEnvelope（rails 覆写 rescue_from 同形）：查无一律 404
+ * NOT_FOUND，不落基座裸 UUID 启发式（id 形如 "C-<uuid>"）。
  */
 final class ContractsController extends Controller
 {
-    public function createContract(): JsonResponse
+    use BusinessEnvelope;
+
+    // @impl M02.F01.I01 (book anchor xr-know-012)
+    public function listContracts(Request $request): JsonResponse
     {
-        return $this->notImplemented();
+        $service = new ContractService($this->currentTenantId($request));
+        $status = $this->enumParam($this->queryParam($request, 'status'), ContractService::STATUSES);
+        $items = $service->list($this->queryParam($request, 'keyword'), $status);
+
+        return $this->renderBusinessEnvelope($request, $items);
     }
 
-    public function deleteContract(): JsonResponse
+    // @impl M02.F01.I02 (book anchor xr-know-012)
+    public function getContract(Request $request): JsonResponse
     {
-        return $this->notImplemented();
+        $id = (string) $request->route('id');
+
+        try {
+            return $this->renderCamel(
+                (new ContractService($this->currentTenantId($request)))->get($id)
+            );
+        } catch (ModelNotFoundException) {
+            return $this->renderError(404, 'NOT_FOUND', "Contract not found: {$id}");
+        }
     }
 
-    public function getContract(): JsonResponse
+    // @impl M02.F01.I03 (book anchor xr-know-012)
+    public function createContract(Request $request): JsonResponse
     {
-        return $this->notImplemented();
+        return $this->renderCamel(
+            (new ContractService($this->currentTenantId($request)))->create($this->bodyParams($request))
+        );
     }
 
-    public function listContracts(): JsonResponse
+    // @impl M02.F01.I04 (book anchor xr-know-012)
+    public function updateContract(Request $request): JsonResponse
     {
-        return $this->notImplemented();
+        $id = (string) $request->route('id');
+
+        try {
+            return $this->renderCamel(
+                (new ContractService($this->currentTenantId($request)))->update($id, $this->bodyParams($request))
+            );
+        } catch (ModelNotFoundException) {
+            return $this->renderError(404, 'NOT_FOUND', "Contract not found: {$id}");
+        }
     }
 
-    public function updateContract(): JsonResponse
+    // @impl M02.F01.I05 (book anchor xr-know-012)
+    public function deleteContract(Request $request): JsonResponse
     {
-        return $this->notImplemented();
+        $id = (string) $request->route('id');
+
+        try {
+            (new ContractService($this->currentTenantId($request)))->delete($id);
+        } catch (ModelNotFoundException) {
+            return $this->renderError(404, 'NOT_FOUND', "Contract not found: {$id}");
+        }
+
+        return response()->json()->setStatusCode(204);
     }
 }

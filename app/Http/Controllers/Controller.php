@@ -123,6 +123,21 @@ abstract class Controller
     }
 
     /**
+     * JwtGuard 注入的身份缝（Task 4 约定，rails ApplicationController#current_tenant_id
+     * 同位）：claim tenant_id 缺省已由 JwtGuard 回退目录默认租户，此处非空即真；
+     * 缺失=鉴权链断裂，禁兜底（ADR-0019 / suite-hard-rules §3）→ 401。
+     */
+    protected function currentTenantId(Request $request): string
+    {
+        $tenantId = $request->attributes->get('currentTenantId');
+        if (! is_string($tenantId) || $tenantId === '') {
+            throw new InvalidCredentials('missing tenant_id claim');
+        }
+
+        return $tenantId;
+    }
+
+    /**
      * rails bad_uuid_param 镜像：ModelNotFound 渲染前的 UUID 甄别——路径段声称 uuid
      * 但格式非法 → 返回首个坏值（基座映射转 400 malformed uuid）；合法格式查无 →
      * null（404）。
