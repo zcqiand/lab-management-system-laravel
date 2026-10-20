@@ -2,12 +2,27 @@
 
 declare(strict_types=1);
 
+use App\Exceptions\AccessDenied;
+use App\Exceptions\InvalidCredentials;
+use App\Exceptions\InvalidGrant;
+use App\Exceptions\Jwt\TokenExpired;
+use App\Exceptions\Jwt\TokenInvalid;
+use App\Exceptions\MenusUnavailable;
+use App\Exceptions\SaasIdpUnavailable;
+use App\Exceptions\UpstreamUnavailable;
+use App\Http\Controllers\Controller;
 use App\Http\Middleware\JwtGuard;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -24,10 +39,89 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // jwt.guard：保护面 115 条路由组挂载。真 JWT 验签内核（HS256 + JWT_ISSUER 校验
-        // + 401 INVALID_CREDENTIALS 形状）在 auth 实装任务替换 JwtGuard 的 handle 体——
-        // alias 与挂载面已随路由壳钉死，实装只换内核不动路由面。
+        // jwt.guard（rails concerns/jwt_guard.rb 镜像）：保护面 115 条路由组挂载（Task 3
+        // 钉死）。Task 4 起为真内核：Bearer JWT 验签（HS256 + iss + typ=access）→ 401
+        // INVALID_CREDENTIALS / 身份 attributes 注入。
         $middleware->alias(['jwt.guard' => JwtGuard::class]);
     })
-    ->withExceptions(function (Exceptions $exceptions): void {})
+    ->withExceptions(function (Exceptions $exceptions): void {
+        // 错误体 {code,message} 映射——rails application_controller rescue_from 表逐行
+        // 镜像（镜像 springboot GlobalExceptionHandler，ADR-0020 错误契约）。
+        // 映射表外异常返回 null 走框架默认处理（不吞）。
+        $exceptions->render(function (Throwable $e, Request $request): ?Response {
+            // JwtGuard 不经异常链（直接回 401 响应）；此口子接 decode_bearer!（oauth 链
+            // 手动 decode，rails rescue JWT::* → InvalidCredentials 镜像）。
+            if ($e instanceof TokenExpired) {
+                return response()->json(['code' => 'INVALID_CREDENTIALS', 'message' => 'token expired'], 401);
+            }
+            if ($e instanceof TokenInvalid || $e instanceof InvalidCredentials) {
+                return response()->json(
+                    ['code' => 'INVALID_CREDENTIALS', 'message' => $e->getMessage() ?: 'invalid credentials'],
+                    401
+                );
+            }
+
+            if ($e instanceof AccessDenied) {
+                return response()->json(['code' => 'FORBIDDEN', 'message' => $e->getMessage() ?: 'access denied'], 403);
+            }
+
+            // —— lab 认证域特有映射（lab rails application_controller:49-63 镜像）——
+            if ($e instanceof MenusUnavailable) {
+                return response()->json(['code' => 'MENUS_UNAVAILABLE', 'message' => $e->getMessage()], 503);
+            }
+            if ($e instanceof SaasIdpUnavailable) {
+                return response()->json(['code' => 'SAAS_UNAVAILABLE', 'message' => $e->getMessage()], 502);
+            }
+            if ($e instanceof InvalidGrant) {
+                return response()->json(['code' => 'INVALID_GRANT', 'message' => $e->getMessage()], 400);
+            }
+            if ($e instanceof UpstreamUnavailable) {
+                return response()->json(['code' => 'SAAS_UPSTREAM_ERROR', 'message' => $e->getMessage()], 502);
+            }
+
+            // UUID 参数甄别（镜像 springboot UUID.fromString，rails RecordNotFound rescue
+            // 同形）：路径段声称 uuid 但格式非法 → 400（IAE 语义）；合法格式但查无 → 404。
+            // Laravel 在 render callbacks 之前经 prepareException 把 ModelNotFoundException
+            // 包成 NotFoundHttpException，故此处认 previous（裸 NotFoundHttpException=路由
+            // 404，不属本映射，走框架默认）。
+            if ($e instanceof NotFoundHttpException && $e->getPrevious() instanceof ModelNotFoundException) {
+                $bad = Controller::badUuidParam($request);
+                if ($bad !== null) {
+                    return response()->json(['code' => 'BAD_REQUEST', 'message' => "malformed uuid: {$bad}"], 400);
+                }
+
+                return response()->json(
+                    ['code' => 'NOT_FOUND', 'message' => $e->getMessage() ?: 'resource not found'],
+                    404
+                );
+            }
+
+            // ArgumentError → 400（分页参数校验等）
+            if ($e instanceof InvalidArgumentException) {
+                return response()->json(
+                    ['code' => 'BAD_REQUEST', 'message' => $e->getMessage() ?: 'invalid argument'],
+                    400
+                );
+            }
+
+            // 完整性违反（Unique 23505 / NotNull 23502 / FK 23503 / 23000）→ 400
+            // "constraint violation: …"（rails RecordInvalid/InvalidForeignKey/
+            // NotNullViolation/RecordNotUnique 同组镜像；其余 QueryException 不吞，
+            // 走框架默认 500）
+            if ($e instanceof QueryException
+                && preg_match('/SQLSTATE\[(23000|23502|23503|23505)\]/', $e->getMessage()) === 1) {
+                return response()->json(
+                    ['code' => 'BAD_REQUEST', 'message' => "constraint violation: {$e->getMessage()}"],
+                    400
+                );
+            }
+
+            // ParameterMissing / JSON.parse 失败镜像（HttpMessageNotReadable → 400）
+            if ($e instanceof BadRequestHttpException) {
+                return response()->json(['code' => 'BAD_REQUEST', 'message' => 'malformed request body'], 400);
+            }
+
+            return null;
+        });
+    })
     ->create();
