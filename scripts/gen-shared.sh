@@ -11,5 +11,4 @@ SHARED_DIR="$(cd ../lab-management-system-shared && pwd)"
 ( cd "$SHARED_DIR" && npm run emit:openapi )
 rm -f generated/api_manifest.json
 php scripts/gen-manifest.php "$SHARED_DIR/generated/openapi/openapi.yaml"
-mkdir -p public/api-docs
-cp "$SHARED_DIR/generated/openapi/openapi.yaml" public/api-docs/openapi.yaml
+cp "$SHARED_DIR/generated/openapi/openapi.yaml" public/api-docs.yaml
